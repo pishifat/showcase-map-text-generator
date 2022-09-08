@@ -98,7 +98,7 @@ async function generate() {
             }
 
             if (userInfo) {
-                file += `  - ${modesText} [${mapInfo[0].artist} - ${mapInfo[0].title}](https://osu.ppy.sh/beatmapsets/${beatmapsetId}) hosted by ![][flag_${userInfo.country}] [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})\n`;
+                file += `  - ${modesText} [${mapInfo[0].artist} - ${mapInfo[0].title}](https://osu.ppy.sh/beatmapsets/${beatmapsetId}) hosted by ::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})\n`;
             }
         }
     }
