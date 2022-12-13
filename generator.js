@@ -61,8 +61,22 @@ async function generate() {
 
             const artist = newsInfo.data.title.substring(21);
             const date = newsInfo.data.published_at.substring(0,10);
+            const year = newsInfo.data.published_at.substring(0,4);
+            const month = newsInfo.data.published_at.substring(5,7);
+            const day = newsInfo.data.published_at.substring(8,10);
 
-            file += `\n- **[${artist}](${line})** (${date})\n`;
+            switch(secret.language) {
+                case 'en':
+                case 'id':
+                case 'ja':
+                case 'ru':
+                    file += `\n- **[${artist}](${line})** (${year}-${month}-${day})\n`;
+                    break;
+                case 'fr':
+                    file += `\n- **[${artist}](${line})** (${day}/${month}/${year})\n`;
+                    break;
+            }
+            
         } else {
             const beatmapsetId = getBeatmapsetIdFromUrl(line);
             const mapInfoResponse = await getBeatmapsetInfo(beatmapsetId);
@@ -98,7 +112,27 @@ async function generate() {
             }
 
             if (userInfo) {
-                file += `  - ${modesText} [${mapInfo[0].artist} - ${mapInfo[0].title}](https://osu.ppy.sh/beatmapsets/${beatmapsetId}) hosted by ::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})\n`;
+                let hostDetail = '';
+    
+                switch(secret.language) {
+                    case 'en':
+                        hostDetail = `hosted by ::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})`;
+                        break;
+                    case 'fr':
+                        hostDetail = `organisé par ::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})`;
+                        break;
+                    case 'id':
+                        hostDetail = `diurus oleh ::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})`;
+                        break;
+                    case 'ja':
+                        hostDetail = `::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})によってホスト`;
+                        break;
+                    case 'ru':
+                        hostDetail = `от ::{ flag=${userInfo.country} }:: [${userInfo.username}](https://osu.ppy.sh/users/${userInfo.user_id})`;
+                        break;
+                }
+
+                file += `  - ${modesText} [${mapInfo[0].artist} - ${mapInfo[0].title}](https://osu.ppy.sh/beatmapsets/${beatmapsetId}) ${hostDetail}\n`;
             }
         }
     }
