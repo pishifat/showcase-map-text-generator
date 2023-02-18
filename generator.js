@@ -50,6 +50,9 @@ async function generate() {
 
     let file = '';
 
+    let scopedMonth;
+    let scopedYear;
+
     for (const line of splitText) {
         console.log(line);
         
@@ -60,20 +63,54 @@ async function generate() {
             await sleep(1000);
 
             const artist = newsInfo.data.title.substring(21);
-            const date = newsInfo.data.published_at.substring(0,10);
+            const date = new Date(newsInfo.data.published_at.substring(0,10));
             const year = newsInfo.data.published_at.substring(0,4);
             const month = newsInfo.data.published_at.substring(5,7);
             const day = newsInfo.data.published_at.substring(8,10);
+
+            let newMonth = date.getMonth();
+            const enMonths = ['January', 'Febraury', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const idMonths = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const jaMonths = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+            const ruMonths = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+            const frMonths = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+            
+            if (scopedYear !== year) {
+                file += `\n\n##${year}\n`
+                scopedYear = year;
+            }
+
+            if (scopedMonth !== newMonth) {
+                switch(secret.language) {
+                    case 'en':
+                        file += `\n###${enMonths[newMonth]}\n\n`;
+                        break;
+                    case 'id':
+                        file += `\n###${idMonths[newMonth]}\n\n`;
+                        break;
+                    case 'ja':
+                        file += `\n###${jaMonths[newMonth]}\n\n`;
+                        break;
+                    case 'ru':
+                        file += `\n###${ruMonths[newMonth]}\n\n`;
+                        break;
+                    case 'fr':
+                        file += `\n###${frMonths[newMonth]}\n\n`;
+                        break;
+                }
+
+                scopedMonth = newMonth;
+            }
 
             switch(secret.language) {
                 case 'en':
                 case 'id':
                 case 'ja':
                 case 'ru':
-                    file += `\n- **[${artist}](${line})** (${year}-${month}-${day})\n`;
+                    file += `- **[${artist}](${line})** (${year}-${month}-${day})\n`;
                     break;
                 case 'fr':
-                    file += `\n- **[${artist}](${line})** (${day}/${month}/${year})\n`;
+                    file += `- **[${artist}](${line})** (${day}/${month}/${year})\n`;
                     break;
             }
             
