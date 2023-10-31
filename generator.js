@@ -60,7 +60,7 @@ async function generate() {
 
         if (line.includes('home')) {
             const newsInfo = await getNewsInfo(token, line.substring(29));
-            await sleep(1000);
+            await sleep(300);
 
             const artist = newsInfo.data.title.substring(21);
             const date = new Date(newsInfo.data.published_at.substring(0,10));
@@ -76,26 +76,26 @@ async function generate() {
             const frMonths = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
             
             if (scopedYear !== year) {
-                file += `\n\n##${year}\n`
+                file += `\n\n## ${year}\n`
                 scopedYear = year;
             }
 
             if (scopedMonth !== newMonth) {
                 switch(secret.language) {
                     case 'en':
-                        file += `\n###${enMonths[newMonth]}\n\n`;
+                        file += `\n### ${enMonths[newMonth]}\n\n`;
                         break;
                     case 'id':
-                        file += `\n###${idMonths[newMonth]}\n\n`;
+                        file += `\n### ${idMonths[newMonth]}\n\n`;
                         break;
                     case 'ja':
-                        file += `\n###${jaMonths[newMonth]}\n\n`;
+                        file += `\n### ${jaMonths[newMonth]}\n\n`;
                         break;
                     case 'ru':
-                        file += `\n###${ruMonths[newMonth]}\n\n`;
+                        file += `\n### ${ruMonths[newMonth]}\n\n`;
                         break;
                     case 'fr':
-                        file += `\n###${frMonths[newMonth]}\n\n`;
+                        file += `\n### ${frMonths[newMonth]}\n\n`;
                         break;
                 }
 
@@ -117,7 +117,7 @@ async function generate() {
         } else {
             const beatmapsetId = getBeatmapsetIdFromUrl(line);
             const mapInfoResponse = await getBeatmapsetInfo(beatmapsetId);
-            await sleep(1000);
+            await sleep(300);
 
             const mapInfo = mapInfoResponse.data;
 
