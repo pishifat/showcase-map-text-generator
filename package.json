@@ -1,0 +1,15 @@
+{
+  "name": "showcase-map-text-generator",
+  "version": "1.0.0",
+  "description": "1. put news post and beatmap links in `data.txt` separated by newlines\r 2. `npm i` (and `npm i axios`)\r 3. create `secret.json` in main directory following `secretExample.json` \r 4. `node generator.js`",
+  "main": "fa.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "fs": "^0.0.1-security"
+  }
+}
